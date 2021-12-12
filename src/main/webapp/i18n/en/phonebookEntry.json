@@ -1,0 +1,25 @@
+{
+  "phonebookgeneratorApp": {
+    "phonebookEntry": {
+      "home": {
+        "title": "Phonebook Entries",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Phonebook Entry",
+        "createOrEditLabel": "Create or edit a Phonebook Entry",
+        "notFound": "No Phonebook Entries found"
+      },
+      "created": "A new Phonebook Entry is created with identifier {{ param }}",
+      "updated": "A Phonebook Entry is updated with identifier {{ param }}",
+      "deleted": "A Phonebook Entry is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Phonebook Entry {{ id }}?"
+      },
+      "detail": {
+        "title": "Phonebook Entry"
+      },
+      "id": "ID",
+      "description": "Description",
+      "phoneNumber": "Phone Number"
+    }
+  }
+}

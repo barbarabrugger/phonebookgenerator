@@ -40,6 +40,8 @@
     "devServerPort": 9060,
     "clientPackageManager": "npm",
     "languages": ["en", "de"],
-    "enableGradleEnterprise": false
+    "enableGradleEnterprise": false,
+    "entities": ["PhonebookEntry", "PhoneNumber"],
+    "lastLiquibaseTimestamp": 1639318632000
   }
 }

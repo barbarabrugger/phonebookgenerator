@@ -1,6 +1,10 @@
 package ch.qfs.phonebook.generator;
 
 import ch.qfs.phonebook.generator.config.ApplicationProperties;
+import ch.qfs.phonebook.generator.domain.PhoneNumber;
+import ch.qfs.phonebook.generator.domain.PhonebookEntry;
+import ch.qfs.phonebook.generator.repository.PhonebookEntryRepository;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -10,17 +14,25 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.web.client.RestTemplate;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
 public class PhonebookgeneratorApp {
+
+    @Autowired
+    PhonebookEntryRepository repo;
 
     private static final Logger log = LoggerFactory.getLogger(PhonebookgeneratorApp.class);
 
@@ -33,9 +45,11 @@ public class PhonebookgeneratorApp {
     /**
      * Initializes phonebookgenerator.
      * <p>
-     * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
+     * Spring profiles can be configured with a program argument
+     * --spring.profiles.active=your-active-profile
      * <p>
-     * You can find more information on how profiles work with JHipster on <a href="https://www.jhipster.tech/profiles/">https://www.jhipster.tech/profiles/</a>.
+     * You can find more information on how profiles work with JHipster on <a href=
+     * "https://www.jhipster.tech/profiles/">https://www.jhipster.tech/profiles/</a>.
      */
     @PostConstruct
     public void initApplication() {
@@ -99,5 +113,49 @@ public class PhonebookgeneratorApp {
             contextPath,
             env.getActiveProfiles().length == 0 ? env.getDefaultProfiles() : env.getActiveProfiles()
         );
+    }
+
+    // @Bean
+    // public RestTemplate restTemplateIvy(RestTemplateBuilder builder) {
+    // builder.basicAuthentication("Developer", "Developer");
+    // return builder.build();
+    // }
+
+    @Bean
+    public CommandLineRunner run(RestTemplateBuilder builder) throws Exception {
+        return args -> {
+            RestTemplate restTemplateIvy = builder.basicAuthentication("Developer", "Developer").build();
+            PhonebookEntry[] entries = restTemplateIvy.getForObject(
+                "http://localhost:8081/ivy/api/designer/phonebook",
+                PhonebookEntry[].class
+            );
+            // PhonebookEntry[] entries = response.getBody();
+            // for(PhonebookEntry e : entries){
+            // repo.save(e);
+            // }
+            generatePhoneBookXML(entries);
+        };
+    }
+
+    private void generatePhoneBookXML(PhonebookEntry[] entries) {
+        PrintWriter writer;
+        try {
+            log.info("Start generating phonebook.xml...");
+            writer = new PrintWriter("phonebook.xml", "UTF-8");
+            writer.println("<VitabadIPPhoneDirectory>");
+            for (PhonebookEntry e : entries) {
+                writer.println("    <DirectoryEntry>");
+                writer.println("        <Name>" + e.getDescription() + "</Name>");
+                for (PhoneNumber number : e.getPhoneNumbers()) {
+                    writer.println("        <Telephone>" + number.getNumber() + "</Telephone>");
+                }
+                writer.println("    </DirectoryEntry>");
+            }
+            writer.println("</VitabadIPPhoneDirectory>");
+            writer.close();
+            log.info("phonebook.xml successfully generated.");
+        } catch (Exception e) {
+            log.error("Exception at generating yealink phonebook", e);
+        }
     }
 }

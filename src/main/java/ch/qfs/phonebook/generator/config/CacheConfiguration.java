@@ -48,6 +48,9 @@ public class CacheConfiguration {
             createCache(cm, ch.qfs.phonebook.generator.domain.User.class.getName());
             createCache(cm, ch.qfs.phonebook.generator.domain.Authority.class.getName());
             createCache(cm, ch.qfs.phonebook.generator.domain.User.class.getName() + ".authorities");
+            createCache(cm, ch.qfs.phonebook.generator.domain.PhonebookEntry.class.getName());
+            createCache(cm, ch.qfs.phonebook.generator.domain.PhonebookEntry.class.getName() + ".phoneNumbers");
+            createCache(cm, ch.qfs.phonebook.generator.domain.PhoneNumber.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

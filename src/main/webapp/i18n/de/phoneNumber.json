@@ -1,0 +1,25 @@
+{
+  "phonebookgeneratorApp": {
+    "phoneNumber": {
+      "home": {
+        "title": "Phone Numbers",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Phone Number erstellen",
+        "createOrEditLabel": "Phone Number erstellen oder bearbeiten",
+        "notFound": "Keine Phone Numbers gefunden"
+      },
+      "created": "Phone Number erstellt mit ID {{ param }}",
+      "updated": "Phone Number aktualisiert mit ID {{ param }}",
+      "deleted": "Phone Number gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Phone Number {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Phone Number"
+      },
+      "id": "ID",
+      "number": "Number",
+      "phonebookEntry": "Phonebook Entry"
+    }
+  }
+}

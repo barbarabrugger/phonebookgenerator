@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity PhoneNumber.
+    -->
+    <changeSet id="20211212141712-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="phonebook_entry_id"
+                                 baseTableName="phone_number"
+                                 constraintName="fk_phone_number__phonebook_entry_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="phonebook_entry"/>
+    </changeSet>
+</databaseChangeLog>
